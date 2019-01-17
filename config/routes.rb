@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root 'application#index'
   resources :categories do
-    resources :recommendations, only: [:index]
+    resources :recommendations, only: [:index, :show]
     get '/recent' => 'recommendations#recent'
   end
 
