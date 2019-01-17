@@ -4,6 +4,7 @@
   <p><label><b>Recommendation Description</b>:</label> <%= @recommendation.description %></p>
   <p><label><b>Recommendation Category</b>:</label> <%= @recommendation.category.name %></p>
   <p><label><b>Recommendation Author</b>:</label> <%= @recommendation.user.name %></p>
+  <p><a href="#" class="js-next" data-cat-id="<%= @recommendation.category.id%>">Next <%= @recommendation.category.name %> Recommendation</a></p>
 
 <% if current_user.id == @recommendation.user_id %>
 
