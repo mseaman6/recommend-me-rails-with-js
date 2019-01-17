@@ -4,7 +4,10 @@
   <p><label><b>Recommendation Description</b>:</label> <%= @recommendation.description %></p>
   <p><label><b>Recommendation Category</b>:</label> <%= @recommendation.category.name %></p>
   <p><label><b>Recommendation Author</b>:</label> <%= @recommendation.user.name %></p>
-  <p><a href="#" class="js-next" data-cat-id="<%= @recommendation.category.id%>">Next <%= @recommendation.category.name %> Recommendation</a></p>
+  <p><a href="#" class="js-next" data-id="<%= @recommendation.id%>" data-cat-id="<%= @recommendation.category.id%>">Next <%= @recommendation.category.name %> Recommendation</a></p>
+<!-- I think I may need to make a nested route in order to do this properly-->
+  <ul><%= render partial: 'recommendations/recommendation', collection: @category.recommendations %></ul>
+
 
 <% if current_user.id == @recommendation.user_id %>
 
@@ -20,3 +23,22 @@
   <%= render partial: 'comment', collection: @recommendation.comments %><br>
 
   <%= render 'comments/form', recommendation: @recommendation %>
+
+
+  <script type="text/javascript" charset="utf-8">
+  $(function () {
+    $(".js-next").on("click", function() {
+      let catId = $(".js-next").attr("data-cat-id")
+      let nextId = parseInt($(".js-next").attr("data-id")) + 1;
+      $.get("/categories/" + catId + "/recommendations/" + nextId + ".json", function(data) {
+        let recommendation = data;
+        $(".productName").text(recommendation["name"]);
+        $(".productPrice").text(recommendation["price"]);
+        $(".productDescription").text(recommendation["description"]);
+        $(".productInventory").text(recommendation["inventory"]);
+        // re-set the id to current on the link
+        $(".js-next").attr("data-id", recommendation["id"]);
+      });
+    });
+  });
+  </script>
