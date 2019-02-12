@@ -2,16 +2,17 @@ Rails.application.routes.draw do
 
   root 'application#index'
   resources :categories do
-    resources :recommendations, only: [:index, :show]
+    resources :recommendations do
+      resources :comments
+    end
     get '/recent' => 'recommendations#recent'
   end
 
   get '/recommendations/recent' => 'recommendations#recent'
   get '/recommendations/alphabetical' => 'recommendations#alphabetical'
 
-  resources :recommendations do
-    resources :comments
-  end
+  resources :recommendations, only: [:index, :new, :create]
+
   resources :users do
     resources :comments, only: [:index]
   end

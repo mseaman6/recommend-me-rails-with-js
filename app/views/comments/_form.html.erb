@@ -1,6 +1,5 @@
 
-
-<%= form_for [@recommendation, @comment] do |f| %>
+<%= form_for [@category, @recommendation, @comment] do |f|  %>
 <!-- validation does not appear to work here, @recommendation info not passing when rendered -->
 
   <%= f.text_field(:'text', :placeholder => "do you have thoughts...?", class: "form-control") %><br>

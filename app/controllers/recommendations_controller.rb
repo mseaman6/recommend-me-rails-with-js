@@ -35,7 +35,7 @@ class RecommendationsController < ApplicationController
       @recommendation.category_id = @category.id
     end
     if @recommendation.save
-      redirect_to recommendation_path(@recommendation)
+      redirect_to category_recommendation_path(@category, @recommendation)
     else
       #flash[:message] = "The new recommendation failed to be created.  Please make sure that you complete all required fields and try again."
       render :new
@@ -43,20 +43,23 @@ class RecommendationsController < ApplicationController
   end
 
   def show
+    @category ||= Category.find(params[:category_id])
     @recommendation ||= Recommendation.find(params[:id])
     @comment = Comment.new
   end
 
   def edit
+    @category ||= Category.find(params[:category_id])
     @recommendation = Recommendation.find(params[:id])
     if current_user.id == @recommendation.user_id
     else
       flash[:message] = "The recommendation can only be edited by the user that created it."
-      redirect_to recommendation_path(@recommendation)
+      redirect_to category_recommendation_path(@category, @recommendation)
     end
   end
 
   def update
+    @category ||= Category.find(params[:category_id])
     @recommendation = Recommendation.find(params[:id])
     if current_user.id == @recommendation.user_id
       @recommendation.update(recommendation_params)
@@ -65,18 +68,19 @@ class RecommendationsController < ApplicationController
         @recommendation.category_id = @category.id
       end
       if @recommendation.save
-        redirect_to recommendation_path(@recommendation)
+        redirect_to category_recommendation_path(@category, @recommendation)
       else
         flash[:message] = "The recommendation failed to save, please try again."
-        redirect_to edit_recommendation_path(@recommendation)
+        redirect_to edit_category_recommendation_path(@category, @recommendation)
       end
     else
       flash[:message] = "The recommendation can only be edited by the user that created it."
-      redirect_to recommendation_path(@recommendation)
+      redirect_to category_recommendation_path(@category, @recommendation)
     end
   end
 
   def destroy
+    @category ||= Category.find(params[:category_id])
     @recommendation = Recommendation.find(params[:id])
     if current_user.id == @recommendation.user_id
       @recommendation = Recommendation.destroy(params[:id])

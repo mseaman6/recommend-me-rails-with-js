@@ -4,24 +4,27 @@ class CommentsController < ApplicationController
     @comment = Comment.create(comment_params)
     @comment.user_id = current_user.id
     @comment.recommendation_id = params[:recommendation_id]
+    @category = Category.find(params[:category_id])
+    @recommendation = Recommendation.find(params[:recommendation_id])
     if @comment.save
-      redirect_to recommendation_path(params[:recommendation_id])
+      redirect_to category_recommendation_path(@category, @recommendation)
     else
       flash[:message] = "The new comment failed to be created."
-      redirect_to recommendation_path(params[:recommendation_id])
+      redirect_to category_recommendation_path(@category, @recommendation)
     end
   end
 
   def destroy
     @comment = Comment.find(params[:id])
+    @category = Category.find(params[:category_id])
     @recommendation = Recommendation.find(params[:recommendation_id])
     if session[:user_id] == @comment.user_id
       @comment = Comment.destroy(params[:id])
       flash[:message] = "Comment deleted successully."
-      redirect_to recommendation_path(@recommendation)
+      redirect_to category_recommendation_path(@category, @recommendation)
     else
       flash[:message] = "Comment can only be deleted by the user that created it."
-      redirect_to recommendation_path(@recommendation)
+      redirect_to category_recommendation_path(@category, @recommendation)
     end
   end
 

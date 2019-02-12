@@ -1,7 +1,7 @@
 
 <%= link_to comment.commentor.name, user_path(comment.commentor) %> says "<%= comment.text %>"
 <% if current_user.id == comment.user_id %>
-  <%= form_tag(recommendation_comment_path(comment.recommendation, comment), method: "delete") do %>
+  <%= form_tag(category_recommendation_comment_path(comment.recommendation.category, comment.recommendation, comment), method: "delete") do %>
     <%= submit_tag 'Delete Comment' %>
   <% end %>
 <% end %>

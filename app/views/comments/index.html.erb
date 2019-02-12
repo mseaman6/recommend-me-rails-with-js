@@ -4,7 +4,7 @@
   <% @user.comments.each do |comment| %>
     <div class="comments">
 
-      <p><%= link_to comment.recommendation.title, recommendation_path(comment.recommendation) %> -
+      <p><%= link_to comment.recommendation.title, category_recommendation_path(comment.recommendation.category, comment.recommendation) %> -
       <%= render partial: 'comment', locals: {comment: comment} %></p>
     </div>
   <% end %>

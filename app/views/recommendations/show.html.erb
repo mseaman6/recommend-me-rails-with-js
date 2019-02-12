@@ -9,9 +9,9 @@
 
 <% if current_user.id == @recommendation.user_id %>
 
-  <p><%= link_to "Edit Recommendation", edit_recommendation_path(@recommendation)%></p>
+  <p><%= link_to "Edit Recommendation", edit_category_recommendation_path(@category, @recommendation)%></p>
 
-  <%= form_tag(recommendation_path(@recommendation), method: "delete") do %>
+  <%= form_tag(category_recommendation_path(@category, @recommendation), method: "delete") do %>
     <div><%= submit_tag 'Delete Recommendation', class: "btn btn-primary" %></div>
   <% end %>
 <% end %>
