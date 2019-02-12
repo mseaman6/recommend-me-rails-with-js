@@ -24,21 +24,22 @@
 
 
   <script type="text/javascript" charset="utf-8">
-  $(function () {
-    $(".js-next").on("click", function(e) {
-      e.preventDefault();
-      let catId = $(".js-next").attr("data-cat-id")
-      let nextId = parseInt($(".js-next").attr("data-id")) + 1;
-      debugger;
-      $.get("/categories/" + catId + "/recommendations/" + nextId + ".json", function(data) {
-        let recommendation = data;
-        $(".recommendationTitle").text(recommendation["title"]);
-        $(".recommendationDescription").text(recommendation["description"]);
-        $(".recommendationCategory").text(recommendation["category"]);
-        $(".recommendationAuthor").text(recommendation["author"]);
-        // re-set the id to current on the link
-        $(".js-next").attr("data-id", recommendation["id"]);
+    $(function () {
+      $(".js-next").on("click", function(e) {
+        e.preventDefault();
+        debugger;
+        let catId = $(".js-next").dataset("cat-id");
+        let nextId = parseInt($(".js-next").attr("data-id")) + 1;
+        debugger;
+        $.get("/categories/" + catId + "/recommendations/" + nextId + ".json", function(data) {
+          let recommendation = data;
+          $(".recommendationTitle").text(recommendation["title"]);
+          $(".recommendationDescription").text(recommendation["description"]);
+          $(".recommendationCategory").text(recommendation["category"]);
+          $(".recommendationAuthor").text(recommendation["author"]);
+          // re-set the id to current on the link
+          $(".js-next").attr("data-id", recommendation["id"]);
+        });
       });
     });
-  });
   </script>
