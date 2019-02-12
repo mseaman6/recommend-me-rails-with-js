@@ -35,7 +35,7 @@ class RecommendationsController < ApplicationController
       @recommendation.category_id = @category.id
     end
     if @recommendation.save
-      redirect_to category_recommendation_path(@category, @recommendation)
+      redirect_to category_recommendation_path(@recommendation.category, @recommendation)
     else
       #flash[:message] = "The new recommendation failed to be created.  Please make sure that you complete all required fields and try again."
       render :new

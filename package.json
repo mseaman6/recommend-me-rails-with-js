@@ -1,5 +1,7 @@
 {
   "name": "recommend-me-rails",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "jquery-ujs": "^1.2.2"
+  }
 }
