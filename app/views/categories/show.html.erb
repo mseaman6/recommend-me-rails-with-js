@@ -3,7 +3,7 @@
 <ul>
 <% if @category.recommendations.count > 0 %>
   <div class="recommendation">
-    <ul><%= render partial: 'recommendations/recommendation', collection: @category.recommendations %></ul>
+    <ul><%= render partial: 'categories/recommendation', collection: @category.recommendations %></ul>
   </div>
 <% end %>
 </ul>

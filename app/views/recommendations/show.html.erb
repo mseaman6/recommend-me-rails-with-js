@@ -6,8 +6,6 @@
   <p><label><b>Recommendation Author</b>:</label> <span class="recommendationAuthor"><%= @recommendation.user.name %></span></p>
   <p><a href="#" class="js-next" data-id="<%= @recommendation.id%>" data-cat-id="<%= @recommendation.category.id%>">Next <%= @recommendation.category.name %> Recommendation</a></p>
 <!-- I think I may need to make a nested route in order to do this properly-->
-  <ul><%= render partial: 'recommendations/recommendation', collection: @category.recommendations %></ul>
-
 
 <% if current_user.id == @recommendation.user_id %>
 
@@ -27,9 +25,11 @@
 
   <script type="text/javascript" charset="utf-8">
   $(function () {
-    $(".js-next").on("click", function() {
+    $(".js-next").on("click", function(e) {
+      e.preventDefault();
       let catId = $(".js-next").attr("data-cat-id")
       let nextId = parseInt($(".js-next").attr("data-id")) + 1;
+      debugger;
       $.get("/categories/" + catId + "/recommendations/" + nextId + ".json", function(data) {
         let recommendation = data;
         $(".recommendationTitle").text(recommendation["title"]);
