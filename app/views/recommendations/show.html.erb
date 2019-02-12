@@ -18,7 +18,11 @@
   <br>
 
   <h3>Comments:</h3><br>
-  <%= render partial: 'comment', collection: @recommendation.comments %><br>
+  <div class="comments">
+    <ul>
+    <%= render partial: 'comment', collection: @recommendation.comments %><br>
+    </ul>
+  </div>
 
   <%= render 'comments/form', recommendation: @recommendation %>
 
@@ -28,8 +32,14 @@
     $(".js-next").on("click", function(e) {
       e.preventDefault();
       let catId = $(".js-next").attr("data-cat-id");
+      //this is problematic because the next recommendation in this category is not necessarily the next number....
       let nextId = parseInt($(".js-next").attr("data-id")) + 1;
       debugger;
+      <% if @category.recommendations %>
+        <div class="error_message">
+          <p>This is the last recommendation in this category.</p>
+        </div>
+      <% end %>
       $.get("/categories/" + catId + "/recommendations/" + nextId + ".json", function(data) {
         let recommendation = data;
         $(".recommendationTitle").text(recommendation["title"]);

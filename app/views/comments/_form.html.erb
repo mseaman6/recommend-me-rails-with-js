@@ -1,8 +1,37 @@
-
 <%= form_for [@category, @recommendation, @comment] do |f|  %>
 <!-- validation does not appear to work here, @recommendation info not passing when rendered -->
 
   <%= f.text_field(:'text', :placeholder => "do you have thoughts...?", class: "form-control") %><br>
-
+  <%= f.hidden_field :category_id, :value => @category.id %>
+  <%= f.hidden_field :recommendation_id, :value => @recommendation.id %>
   <%= f.submit "Submit Comment", {class: "btn btn-primary"} %>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+  $(function () {
+    $('form#new_comment').submit(function(event) {
+      event.preventDefault();
+      debugger;
+      let catId = $("input#comment_category_id").attr("value");
+      let recId = $("input#comment_recommendation_id").attr("value");
+      let text = $("input#comment_text").attr("value");
+      let comment = $.post('categories' + catId + '/recommendations' + recId, text);
+
+      comment.done(function(data) {
+        let comment = data;
+  //      $(".comments") += ;
+  //      <div class="comment">
+  //        <li>
+  //          <#%= link_to comment.commentor.name, user_path(comment.commentor) %> says "<%= comment.text %>"
+  //          <#% if current_user.id == comment.user_id %>
+  //            <#%= form_tag(category_recommendation_comment_path(@category, @recommendation, comment), method: "delete") do %>
+  //              <div><#%= submit_tag 'Delete Comment' %></div>
+  //            <#% end %>
+  //          <#% end %>
+  //        </li>
+  //      </div>
+
+      });
+    });
+  });
+</script>

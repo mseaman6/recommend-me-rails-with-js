@@ -1,13 +1,10 @@
-
-  <ul>
-    <div class="comments">
-    <li>
-      <%= link_to comment.commentor.name, user_path(comment.commentor) %> says "<%= comment.text %>"
-      <% if current_user.id == comment.user_id %>
-        <%= form_tag(category_recommendation_comment_path(@category, @recommendation, comment), method: "delete") do %>
-          <div><%= submit_tag 'Delete Comment' %></div>
-        <% end %>
-      <% end %>
-    </li>
-    </div>
-  </ul>
+<div class="comment">
+<li>
+  <%= link_to comment.commentor.name, user_path(comment.commentor) %> says "<%= comment.text %>"
+  <% if current_user.id == comment.user_id %>
+    <%= form_tag(category_recommendation_comment_path(@category, @recommendation, comment), method: "delete") do %>
+      <div><%= submit_tag 'Delete Comment' %></div>
+    <% end %>
+  <% end %>
+</li>
+</div>
