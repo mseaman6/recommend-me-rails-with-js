@@ -1,5 +1,5 @@
 //to add into index.js file when appropriate
-<script type="text/javascript" charset="utf-8">
+/* <script type="text/javascript" charset="utf-8">
   $(function () {
     $('form#new_comment').submit(function(event) {
       event.preventDefault();
@@ -19,7 +19,6 @@
             </li>
           </div>
         `
-
 //          <#%= link_to comment.commentor.name, user_path(comment.commentor) %> says "<#%= comment.text %>"
   //          <#% if current_user.id == comment.user_id %>
   //            <#%= form_tag(category_recommendation_comment_path(@category, @recommendation, comment), method: "delete") do %>
@@ -31,4 +30,5 @@
       });
     });
   });
-</script>
+  //</script>
+  */

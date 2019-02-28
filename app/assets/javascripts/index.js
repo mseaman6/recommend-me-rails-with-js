@@ -1,17 +1,7 @@
 $(function() {
-  attachListeners();
+  getUserComments();
   console.log("index.js loaded...");
 })
-
-function getUserComments(e) {
-  e.preventDefault();
-  debugger;
-  gameID = $(this).data("id");
-  let userId = params[:user_id];
-  $.getJSON(`/users/${}/comments`, function (response) {
-    console.log('index.js response: ', response);
-  })
-}
 
 
 function getRecommendations() {
@@ -46,7 +36,15 @@ Recommendation.prototype.recHTML = function () {
   `)
 }
 
-function attachListeners() {
+function getUserComments() {
   const commentsButton = document.getElementById('my-comments');
-  commentsButton.addEventListener('click', getUserComments(e));
+  commentsButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    debugger;
+    //gameID = $(this).data("id");
+    //let userId = params[:user_id];
+    //$.getJSON(`/users/${}/comments`, function (response) {
+      console.log('index.js response: ', response);
+    })
+  }
 };
