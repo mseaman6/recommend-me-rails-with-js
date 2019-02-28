@@ -1,6 +1,17 @@
 $(function() {
+  attachListeners();
   console.log("index.js loaded...");
 })
+
+function getUserComments(e) {
+  e.preventDefault();
+  debugger;
+  gameID = $(this).data("id");
+  let userId = params[:user_id];
+  $.getJSON(`/users/${}/comments`, function (response) {
+    console.log('index.js response: ', response);
+  })
+}
 
 
 function getRecommendations() {
@@ -30,7 +41,12 @@ class Recommendation {
 }
 
 Recommendation.prototype.recHTML = function () {
-  return ('
+  return (`
     <div>${this.title}</div>
-  ')
+  `)
 }
+
+function attachListeners() {
+  const commentsButton = document.getElementById('my-comments');
+  commentsButton.addEventListener('click', getUserComments(e));
+};

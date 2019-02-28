@@ -30,6 +30,11 @@ class CommentsController < ApplicationController
 
   def index
     @user = User.find(params[:user_id])
+    @comments = @user.comments
+    respond_to do |f|
+      f.html {render :index}
+      f.json {render json: @comments}
+    end
   end
 
   private
