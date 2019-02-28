@@ -16,21 +16,26 @@
       let recId = $("input#comment_recommendation_id").attr("value");
       let text = $("input#comment_text").attr("value");
       let comment = $.post('categories' + catId + '/recommendations' + recId, text);
-
       comment.done(function(data) {
+        debugger;
         let comment = data;
-  //      $(".comments") += ;
-  //      <div class="comment">
-  //        <li>
-  //          <#%= link_to comment.commentor.name, user_path(comment.commentor) %> says "<%= comment.text %>"
+        const commentsDiv = $(".comments");
+        let newComment = `
+          <div class="comment">
+            <li>
+              comment.text
+            </li>
+          </div>
+        `
+
+//          <#%= link_to comment.commentor.name, user_path(comment.commentor) %> says "<#%= comment.text %>"
   //          <#% if current_user.id == comment.user_id %>
   //            <#%= form_tag(category_recommendation_comment_path(@category, @recommendation, comment), method: "delete") do %>
   //              <div><#%= submit_tag 'Delete Comment' %></div>
   //            <#% end %>
   //          <#% end %>
-  //        </li>
-  //      </div>
 
+        commentsDiv.innerHTML += newComment;
       });
     });
   });

@@ -7,6 +7,10 @@ class RecommendationsController < ApplicationController
     else
       @recommendations = Recommendation.all
     end
+    respond_to do |f|
+      f.html {render :index}
+      f.json {render json: @recommendations}
+    end
   end
 
   def recent

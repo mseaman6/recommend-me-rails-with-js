@@ -33,7 +33,8 @@
       e.preventDefault();
       let catId = $(".js-next").attr("data-cat-id");
       //this is problematic because the next recommendation in this category is not necessarily the next number....
-      let nextId = parseInt($(".js-next").attr("data-id")) + 1;
+      //maybe create an iterator that checks each subsequent recommendation.id for where there is a category match
+      let recId = $(".js-next").attr("data-id");
       debugger;
       <% if @category.recommendations %>
         <div class="error_message">
