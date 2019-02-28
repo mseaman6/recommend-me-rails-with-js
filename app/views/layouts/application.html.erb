@@ -32,8 +32,8 @@
                 <li class="nav-item">
                   <%= link_to("My Recommendations", user_path(current_user), :class => "nav-link") %>
                 </li>
-                <li class="nav-item" id="my-comments">
-                  <%= link_to("My Comments", user_comments_path(current_user), :class => "nav-link") %>
+                <li class="nav-item">
+                  <%= link_to("My Comments", user_comments_path(current_user), :class => "nav-link", :id => "my-comments") %>
                 </li>
                 <li class="nav-item">
                   <%= link_to("Categories", categories_path, :class => "nav-link") %>
@@ -57,7 +57,7 @@
       <br>
 
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" id="content">
           <% flash.each do |name, msg| -%>
             <%= content_tag :div, msg, class: name %>
           <% end -%>

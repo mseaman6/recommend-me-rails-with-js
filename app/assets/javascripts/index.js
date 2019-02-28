@@ -40,11 +40,46 @@ function getUserComments() {
   const commentsButton = document.getElementById('my-comments');
   commentsButton.addEventListener('click', function(e) {
     e.preventDefault();
-    debugger;
-    //gameID = $(this).data("id");
-    //let userId = params[:user_id];
-    //$.getJSON(`/users/${}/comments`, function (response) {
+    $.getJSON(`${this.href}`, function(response) {
       console.log('index.js response: ', response);
-    })
-  }
+      debugger;
+      let comment = new Comment(response[0]);
+      debugger;
+      let commentHtmlData = comment.commentHTML();
+      let header = comment.userHeader();
+      let body = document.getElementById('content');
+      body += header + commentHtmlData
+      debugger;
+    });
+  });
 };
+
+class Comment {
+  constructor(obj) {
+    this.text = obj.text
+    this.commentor = obj.commentor.name
+    this.recommendation = obj.recommendation.title
+    this.category_id = obj.recommendation.category_id
+    this.recommendation_id = obj.recommendation.id
+    this.commentor_id = obj.commentor.id
+    this.commentor_up = obj.commentor.name.toUpperCase()
+  }
+}
+
+Comment.prototype.commentHTML = function() {
+  return (`
+    <div class="comment"><p>
+    <a href='/categories/' + ${this.category_id} + '/recommendations/' + ${this.recommendation_id}>${this.recommendation}</a> -
+    <a href='/users/' + ${this.commentor_id}>${this.commentor}</a> says ${this.text}
+    </p></div>
+  `)
+}
+
+Comment.prototype.userHeader = function() {
+  return (`<h2><b>${this.commentor_up}'s</b> Comments</h2><br>`)
+}
+
+//<div class="comments">
+//  <p><%= link_to comment.recommendation.title, category_recommendation_path(comment.recommendation.category, comment.recommendation) %> -
+//  <%= render partial: 'comment', locals: {comment: comment} %></p>
+//</div>
