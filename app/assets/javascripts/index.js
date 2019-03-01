@@ -42,17 +42,15 @@ function getUserComments() {
     e.preventDefault();
     $.getJSON(`${this.href}`, function(response) {
       console.log('index.js response: ', response);
-      debugger;
       let comment = new Comment(response[0]);
-      debugger;
       let commentHtmlData = comment.commentHTML();
       let header = comment.userHeader();
       let body = document.getElementById('content');
-      body += header + commentHtmlData
-      debugger;
+      body.innerHTML = header + commentHtmlData;
     });
   });
 };
+//working for single comment; need to update and get working for collection of comments
 
 class Comment {
   constructor(obj) {
@@ -70,7 +68,7 @@ Comment.prototype.commentHTML = function() {
   return (`
     <div class="comment"><p>
     <a href='/categories/' + ${this.category_id} + '/recommendations/' + ${this.recommendation_id}>${this.recommendation}</a> -
-    <a href='/users/' + ${this.commentor_id}>${this.commentor}</a> says ${this.text}
+    <a href='/users/' + ${this.commentor_id}>${this.commentor}</a> says "${this.text}"
     </p></div>
   `)
 }
