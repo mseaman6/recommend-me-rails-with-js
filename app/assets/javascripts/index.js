@@ -34,52 +34,62 @@ $(function() {
 function nextRecommendation() {
   $(".js-next").on("click", function(e) {
     e.preventDefault();
-    debugger;
-    $.getJSON(`${window.location.href}/next`, function(response) {
-      console.log('index.js response: ', response);
-//      let commentList = "";
-//      let header = "";
-//      response.forEach(function(comm) {
-//        let comment = new Comment(comm);
-//        header = comment.userHeader();
-//        let commentHtmlData = comment.userCommentHTML();
-//        commentList += commentHtmlData
-//      })
-//      let body = document.getElementById('content');
-//      body.innerHTML = header + commentList;
+    let catId = $(".js-next").attr("data-cat-id");
+    let recId = $(".js-next").attr("data-id");
+    $.getJSON(`/categories/${catId}/recommendations/${recId}/next`, function(response) {
+      let recommendation = new Recommendation(response);
+      debugger;
+      $(".recommendationTitle").text(recommendation["title"]);
+      $(".recommendationDescription").text(recommendation["description"]);
+      $(".recommendationCategory").text(recommendation["category"]);
+      $(".recommendationAuthor").text(recommendation["author"]);
+      $(".js-next").attr("data-id", recommendation["id"]);
+      debugger;
+      getNextRecComments(recommendation.category_id, recommendation.id);
+      //figure out how to display error message for last recommendation in the category
+      debugger;
     });
   });
 }
 
-function getRecommendations() {
-  $.ajax({
-    url: '/recommendations', //'https://localhost:3---/recommendations' or onclick of a certain button, etc.
-    method: 'get',
-    dataType: 'json'
-  }).done(function (response) {
-    console.log("index.js response: ", response);
-
-    let rec = new Recommendation(response[0])
-    //switch to .map functionality to process all itmes in response array
-
-    let recHtmlData = rec.recHTML()
-
-    //append recHtmlData to DOM, etc.
-    debugger;
-  })
+function getNextRecComments(catID, recID) {
+  $.get("/categories/" + catID + "/recommendations/" + nextID + ".json", function(response) {
+    let commentList = "";
+    response.forEach(function(comm) {
+      let comment = new Comment(comm);
+      let commentHtmlData = comment.commentHTML();
+      commentList += commentHtmlData
+    })
+    let commentSection = document.getElementById('comment-info');
+    commentSection.innerHTML = commentList;
+  });
 }
 
 class Recommendation {
   constructor(obj) {
     this.title = obj.title
     this.description = obj.description
+    this.category = obj.category.name
+    this.author = obj.user.name
     this.user_id = obj.user_id
+    this.category_id = obj.category_id
+    this.id = obj.id
+    //this.comments = obj.comments; to figure out how to create multiple comments;
+    //maybe send subsequent call to get comments with update...
   }
 }
 
 Recommendation.prototype.recHTML = function () {
   return (`
     <div>${this.title}</div>
+  `)
+}
+
+Recommendation.prototype.commentHTML = function () {
+  return (`
+    <div class="comment"><li>
+    <a href='/users/' + ${this.commentor_id}>${this.commentor}</a> says "${this.text}"
+    </li></div>
   `)
 }
 
