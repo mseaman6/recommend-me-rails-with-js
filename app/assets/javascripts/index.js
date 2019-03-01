@@ -42,15 +42,20 @@ function getUserComments() {
     e.preventDefault();
     $.getJSON(`${this.href}`, function(response) {
       console.log('index.js response: ', response);
-      let comment = new Comment(response[0]);
-      let commentHtmlData = comment.commentHTML();
-      let header = comment.userHeader();
+      let commentList = "";
+      let header = "";
+      response.forEach(function(comm) {
+        let comment = new Comment(comm);
+        header = comment.userHeader();
+        let commentHtmlData = comment.commentHTML();
+        commentList += commentHtmlData
+      })
       let body = document.getElementById('content');
-      body.innerHTML = header + commentHtmlData;
+      body.innerHTML = header + commentList;
     });
   });
 };
-//working for single comment; need to update and get working for collection of comments
+//can extract button click to separate function
 
 class Comment {
   constructor(obj) {
@@ -76,8 +81,3 @@ Comment.prototype.commentHTML = function() {
 Comment.prototype.userHeader = function() {
   return (`<h2><b>${this.commentor_up}'s</b> Comments</h2><br>`)
 }
-
-//<div class="comments">
-//  <p><%= link_to comment.recommendation.title, category_recommendation_path(comment.recommendation.category, comment.recommendation) %> -
-//  <%= render partial: 'comment', locals: {comment: comment} %></p>
-//</div>
