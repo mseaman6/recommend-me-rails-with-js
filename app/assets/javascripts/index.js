@@ -1,6 +1,7 @@
 $(function() {
   getComments();
   getUserComments();
+  nextRecommendation();
   console.log("index.js loaded...");
 })
 
@@ -28,12 +29,14 @@ $(function() {
 //      });
 //    });
 //  });
-//function nextRecommendation() {
-//  $(".js-next").on("click", function(e) {
-//    e.preventDefault();
-//  
-//    $.getJSON(`${this.href}`, function(response) {
-//      console.log('index.js response: ', response);
+
+//need to move event Listeners into separate functions
+function nextRecommendation() {
+  $(".js-next").on("click", function(e) {
+    e.preventDefault();
+    debugger;
+    $.getJSON(`${window.location.href}/next`, function(response) {
+      console.log('index.js response: ', response);
 //      let commentList = "";
 //      let header = "";
 //      response.forEach(function(comm) {
@@ -44,8 +47,9 @@ $(function() {
 //      })
 //      let body = document.getElementById('content');
 //      body.innerHTML = header + commentList;
-//    });
-//  });}
+    });
+  });
+}
 
 function getRecommendations() {
   $.ajax({
