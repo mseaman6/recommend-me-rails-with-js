@@ -13,6 +13,13 @@ class RecommendationsController < ApplicationController
     end
   end
 
+  def next
+    @recommendations = Recommendation.where("category_id = ?", (params[:category_id]))
+    respond_to do |f|
+      f.json {render json: @recommendations}
+    end
+  end
+
   def recent
     if params[:category_id]
       @recommendations = Recommendation.where("category_id = ?", (params[:category_id])).recent

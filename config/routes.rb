@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :categories do
     resources :recommendations do
       resources :comments
+      get '/next' => 'recommendations#next'
     end
     get '/recent' => 'recommendations#recent'
   end
