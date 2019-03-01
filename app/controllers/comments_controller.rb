@@ -28,11 +28,19 @@ class CommentsController < ApplicationController
     end
   end
 
-  def index
+  def userindex
     @user = User.find(params[:user_id])
     @comments = @user.comments
     respond_to do |f|
       f.html {render :index}
+      f.json {render json: @comments}
+    end
+  end
+
+  def index
+    @recommendation = Recommendation.find(params[:recommendation_id])
+    @comments = @recommendation.comments
+    respond_to do |f|
       f.json {render json: @comments}
     end
   end

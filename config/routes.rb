@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :recommendations, only: [:index, :new, :create]
 
   resources :users do
-    resources :comments, only: [:index]
+    get '/comments' => 'comments#userindex'
   end
 
   get '/login' => 'sessions#new'

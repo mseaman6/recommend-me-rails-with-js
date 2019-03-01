@@ -1,4 +1,5 @@
 $(function() {
+  getComments();
   getUserComments();
   console.log("index.js loaded...");
 })
@@ -47,7 +48,7 @@ function getUserComments() {
       response.forEach(function(comm) {
         let comment = new Comment(comm);
         header = comment.userHeader();
-        let commentHtmlData = comment.commentHTML();
+        let commentHtmlData = comment.userCommentHTML();
         commentList += commentHtmlData
       })
       let body = document.getElementById('content');
@@ -56,6 +57,24 @@ function getUserComments() {
   });
 };
 //can extract button click to separate function
+
+function getComments() {
+  $.ajax({
+    url: `${this.location.href}/comments`,
+    method: 'get',
+    dataType: 'json'
+  }).done(function (response) {
+    let commentList = "";
+    response.forEach(function(comm) {
+      let comment = new Comment(comm);
+      let commentHtmlData = comment.commentHTML();
+      commentList += commentHtmlData
+    })
+    let commentSection = document.getElementById('comment-info');
+    debugger;
+    commentSection.innerHTML = commentList;
+  });
+}
 
 class Comment {
   constructor(obj) {
@@ -69,7 +88,7 @@ class Comment {
   }
 }
 
-Comment.prototype.commentHTML = function() {
+Comment.prototype.userCommentHTML = function() {
   return (`
     <div class="comment"><p>
     <a href='/categories/' + ${this.category_id} + '/recommendations/' + ${this.recommendation_id}>${this.recommendation}</a> -
@@ -80,4 +99,12 @@ Comment.prototype.commentHTML = function() {
 
 Comment.prototype.userHeader = function() {
   return (`<h2><b>${this.commentor_up}'s</b> Comments</h2><br>`)
+}
+
+Comment.prototype.commentHTML = function () {
+  return (`
+    <div class="comment"><li>
+    <a href='/users/' + ${this.commentor_id}>${this.commentor}</a> says "${this.text}"
+    </li></div>
+  `)
 }
