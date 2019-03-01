@@ -57,6 +57,8 @@ function getUserComments() {
   });
 };
 //can extract button click to separate function
+//with transfer to JSON, no longer has ability to delete one's own posts
+
 
 function getComments() {
   $.ajax({
@@ -75,6 +77,7 @@ function getComments() {
     commentSection.innerHTML = commentList;
   });
 }
+//with transfer to JSON, no longer has ability to delete one's own posts
 
 class Comment {
   constructor(obj) {
