@@ -12,17 +12,21 @@ function nextRecommendation() {
     let catId = $(".js-next").attr("data-cat-id");
     let recId = $(".js-next").attr("data-id");
     $.getJSON(`/categories/${catId}/recommendations/${recId}/next`, function(response) {
-      let recommendation = new Recommendation(response);
-      $(".recommendationTitle").text(recommendation["title"]);
-      $(".recommendationDescription").text(recommendation["description"]);
-      $(".recommendationCategory").text(recommendation["category"]);
-      $(".recommendationAuthor").text(recommendation["author"]);
-      $(".js-next").attr("data-id", recommendation["id"]);
-      getNextRecComments(recommendation.category_id, recommendation.id);
-      //figure out how to display error message for last recommendation in the category
+      if(response) {
+        let recommendation = new Recommendation(response);
+        $(".recommendationTitle").text(recommendation["title"]);
+        $(".recommendationDescription").text(recommendation["description"]);
+        $(".recommendationCategory").text(recommendation["category"]);
+        $(".recommendationAuthor").text(recommendation["author"]);
+        $(".js-next").attr("data-id", recommendation["id"]);
+        getNextRecComments(recommendation.category_id, recommendation.id);
+      } else {
+        $(".error_message").text("There are no additional recommendations in this category.");
+      }
     });
   });
 }
+//think about removing next rec link where last in cat; would need to know that next is blank...
 
 function getNextRecComments(catID, recID) {
   $.getJSON(`/categories/${catID}/recommendations/${recID}/comments`, function(response) {
@@ -78,7 +82,7 @@ function getUserComments() {
 };
 //can extract button click to separate function
 //with transfer to JSON, no longer has ability to delete one's own posts
-//to add back in here with ajax delete request 
+//to add back in here with ajax delete request
 
 
 function getComments() {
