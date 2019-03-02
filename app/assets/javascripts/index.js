@@ -2,6 +2,7 @@ $(function() {
   getComments();
   getUserComments();
   nextRecommendation();
+  submitComment();
   console.log("index.js loaded...");
 })
 
@@ -26,7 +27,7 @@ function nextRecommendation() {
     });
   });
 }
-//think about removing next rec link where last in cat; would need to know that next is blank...
+//think about removing next rec link where last in cat; would need to know that next is blank... (so check prior to posting response)
 
 function getNextRecComments(catID, recID) {
   $.getJSON(`/categories/${catID}/recommendations/${recID}/comments`, function(response) {
@@ -84,7 +85,6 @@ function getUserComments() {
 //with transfer to JSON, no longer has ability to delete one's own posts
 //to add back in here with ajax delete request
 
-
 function getComments() {
   $.ajax({
     url: `${this.location.href}/comments`,
@@ -102,6 +102,20 @@ function getComments() {
   });
 }
 //with transfer to JSON, no longer has ability to delete one's own posts
+
+function submitComment() {
+  $('.new_comment').submit(function(e) {
+    e.preventDefault();
+    let values = $(this).serialize();
+    $.post(`${this.action}`, values, function (response) {
+      let comment = new Comment(response);
+      let commentHtmlData = comment.commentHTML();
+      let commentSection = document.getElementById('comment-info');
+      commentSection.innerHTML += commentHtmlData;
+    });
+  });
+}
+
 
 class Comment {
   constructor(obj) {

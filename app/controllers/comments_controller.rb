@@ -7,7 +7,8 @@ class CommentsController < ApplicationController
     @category = Category.find(params[:category_id])
     @recommendation = Recommendation.find(params[:recommendation_id])
     if @comment.save
-      redirect_to category_recommendation_path(@category, @recommendation)
+      render json: @comment, status: 201
+      #redirect_to category_recommendation_path(@category, @recommendation)
     else
       flash[:message] = "The new comment failed to be created."
       redirect_to category_recommendation_path(@category, @recommendation)

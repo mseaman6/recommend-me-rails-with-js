@@ -6,22 +6,3 @@
   <%= f.hidden_field :recommendation_id, :value => @recommendation.id %>
   <%= f.submit "Submit Comment", {class: "btn btn-primary"} %>
 <% end %>
-
-<script type="text/javascript" charset="utf-8">
-  $(function () {
-    $('form').submit(function(event) {
-      event.preventDefault();
-      debugger;
-      let values = $(this).serialize();
-      debugger;
-      let posting = $.post(`${this.action}`, values);
-
-      posting.done(function(data) {
-        debugger;
-        let post = data;
-        $("#postTitle").text(post["title"]);
-        $("#postBody").text(post["description"]);
-      });
-    });
-  });
-</script>
