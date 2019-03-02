@@ -5,7 +5,6 @@
   <p><label><b>Recommendation Category</b>:</label> <span class="recommendationCategory"><%= @recommendation.category.name %></span></p>
   <p><label><b>Recommendation Author</b>:</label> <span class="recommendationAuthor"><%= @recommendation.user.name %></span></p>
   <p><a href="#" class="js-next" data-id="<%= @recommendation.id%>" data-cat-id="<%= @recommendation.category.id%>">Next <%= @recommendation.category.name %> Recommendation</a></p>
-<!-- I think I may need to make a nested route in order to do this properly-->
 
 <% if current_user.id == @recommendation.user_id %>
 

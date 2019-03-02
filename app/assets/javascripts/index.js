@@ -1,16 +1,16 @@
 $(function() {
-  attachListeners();
+  //attachListeners();
   getComments();
-  //getUserComments();
-  //nextRecommendation();
-  //submitComment();
+  getUserComments();
+  nextRecommendation();
+  submitComment();
   console.log("index.js loaded...");
 })
 
-//need to move event Listeners into separate functions
+//to move event Listeners into separate functions
 function nextRecommendation() {
-  //$(".js-next").on("click", function(e) {
-  //  e.preventDefault();
+  $(".js-next").on("click", function(e) {
+    e.preventDefault();
     let catId = $(".js-next").attr("data-cat-id");
     let recId = $(".js-next").attr("data-id");
     $.getJSON(`/categories/${catId}/recommendations/${recId}/next`, function(response) {
@@ -26,7 +26,7 @@ function nextRecommendation() {
         $(".error_message").text("There are no additional recommendations in this category.");
       }
     });
-  //});
+  });
 }
 //think about removing next rec link where last in cat; would need to know that next is blank... (so check prior to posting response)
 
@@ -64,9 +64,9 @@ Recommendation.prototype.commentHTML = function () {
 }
 
 function getUserComments() {
-  //const commentsButton = document.getElementById('my-comments');
-  //commentsButton.addEventListener('click', function(e) {
-  //  e.preventDefault();
+  const commentsButton = document.getElementById('my-comments');
+  commentsButton.addEventListener('click', function(e) {
+    e.preventDefault();
     $.getJSON(`${this.href}`, function(response) {
       console.log('index.js response: ', response);
       let commentList = "";
@@ -80,9 +80,8 @@ function getUserComments() {
       let body = document.getElementById('content');
       body.innerHTML = header + commentList;
     });
-  //});
+  });
 };
-//can extract button click to separate function
 //with transfer to JSON, no longer has ability to delete one's own posts; cannot view session data to validate ownership
 
 function getComments() {
@@ -104,8 +103,8 @@ function getComments() {
 //with transfer to JSON, no longer has ability to delete one's own posts; cannot view session data to validate ownership
 
 function submitComment() {
-  //$('.new_comment').submit(function(e) {
-  //  e.preventDefault();
+  $('.new_comment').submit(function(e) {
+    e.preventDefault();
     let values = $(this).serialize();
     $.post(`${this.action}`, values, function (response) {
       let comment = new Comment(response);
@@ -113,7 +112,7 @@ function submitComment() {
       let commentSection = document.getElementById('comment-info');
       commentSection.innerHTML += commentHtmlData;
     });
-  //});
+  });
 }
 
 
@@ -150,20 +149,23 @@ Comment.prototype.commentHTML = function () {
   `)
 }
 
-function attachListeners() {
-  $(".js-next").on("click", function(e) {
-    e.preventDefault();
-    nextRecommendation();
-  };
+//function attachListeners() {
+  //$(".js-next").addEventListener('click', nextRecommendation);
+  //(e) {
+    //debugger;
+    //e.preventDefault();
+    //nextRecommendation();
+  //});
 
-  const commentsButton = document.getElementById('my-comments');
-  commentsButton.addEventListener('click', function(e) {
-    e.preventDefault();
-    getUserComments();
-  };
+  //const commentsButton = document.getElementById('my-comments');
+  //commentsButton.addEventListener('click', function(e) {
+  //  e.preventDefault();
+  //  getUserComments();
+  //};
 
-  $(".new_comment").on("submit", function(e) {
-    e.preventDefault();
-    submitComment();
-  };
-};
+//  $(".new_comment").on("submit", function(e) {
+//    e.preventDefault();
+//    submitComment();
+//  };
+//};
+//not working with event listeners extracted from functions
