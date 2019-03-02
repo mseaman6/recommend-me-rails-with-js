@@ -57,6 +57,10 @@ class RecommendationsController < ApplicationController
     @category ||= Category.find(params[:category_id])
     @recommendation ||= Recommendation.find(params[:id])
     @comment = Comment.new
+    respond_to do |f|
+      f.html {render :show}
+      f.json {render json: @recommendation}
+    end
   end
 
   def edit

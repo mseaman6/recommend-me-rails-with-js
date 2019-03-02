@@ -38,30 +38,35 @@ function nextRecommendation() {
     let recId = $(".js-next").attr("data-id");
     $.getJSON(`/categories/${catId}/recommendations/${recId}/next`, function(response) {
       let recommendation = new Recommendation(response);
-      debugger;
       $(".recommendationTitle").text(recommendation["title"]);
       $(".recommendationDescription").text(recommendation["description"]);
       $(".recommendationCategory").text(recommendation["category"]);
       $(".recommendationAuthor").text(recommendation["author"]);
       $(".js-next").attr("data-id", recommendation["id"]);
-      debugger;
       getNextRecComments(recommendation.category_id, recommendation.id);
       //figure out how to display error message for last recommendation in the category
-      debugger;
     });
   });
 }
 
 function getNextRecComments(catID, recID) {
-  $.get("/categories/" + catID + "/recommendations/" + nextID + ".json", function(response) {
+  $.getJSON(`/categories/${catID}/recommendations/${recID}`, function(response) {
     let commentList = "";
-    response.forEach(function(comm) {
-      let comment = new Comment(comm);
-      let commentHtmlData = comment.commentHTML();
-      commentList += commentHtmlData
-    })
+    let comments = response.comments
+    debugger;
+    if (comments) {
+      comments.forEach(function(comm) {
+        debugger;
+        let comment = new Comment(comm);
+        let commentHtmlData = comment.commentHTML();
+        commentList += commentHtmlData
+        debugger;
+      })
+    }
+    debugger;
     let commentSection = document.getElementById('comment-info');
     commentSection.innerHTML = commentList;
+    debugger;
   });
 }
 
