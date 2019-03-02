@@ -5,31 +5,6 @@ $(function() {
   console.log("index.js loaded...");
 })
 
-//  $(function () {
-//    $(".js-next").on("click", function(e) {
-//      e.preventDefault();
-//      let catId = $(".js-next").attr("data-cat-id");
-      //this is problematic because the next recommendation in this category is not necessarily the next number....
-      //maybe create an iterator that checks each subsequent recommendation.id for where there is a category match
-//      let recId = $(".js-next").attr("data-id");
-//      debugger;
-//      <% if @category.recommendations %>
-//        <div class="error_message">
-//          <p>This is the last recommendation in this category.</p>
-//        </div>
-//      <% end %>
-//      $.get("/categories/" + catId + "/recommendations/" + nextId + ".json", function(data) {
-//        let recommendation = data;
-//        $(".recommendationTitle").text(recommendation["title"]);
-//        $(".recommendationDescription").text(recommendation["description"]);
-//        $(".recommendationCategory").text(recommendation["category"]);
-//        $(".recommendationAuthor").text(recommendation["author"]);
-        // re-set the id to current on the link
-//        $(".js-next").attr("data-id", recommendation["id"]);
-//      });
-//    });
-//  });
-
 //need to move event Listeners into separate functions
 function nextRecommendation() {
   $(".js-next").on("click", function(e) {
@@ -50,23 +25,15 @@ function nextRecommendation() {
 }
 
 function getNextRecComments(catID, recID) {
-  $.getJSON(`/categories/${catID}/recommendations/${recID}`, function(response) {
+  $.getJSON(`/categories/${catID}/recommendations/${recID}/comments`, function(response) {
     let commentList = "";
-    let comments = response.comments
-    debugger;
-    if (comments) {
-      comments.forEach(function(comm) {
-        debugger;
-        let comment = new Comment(comm);
-        let commentHtmlData = comment.commentHTML();
-        commentList += commentHtmlData
-        debugger;
-      })
-    }
-    debugger;
+    response.forEach(function(comm) {
+      let comment = new Comment(comm);
+      let commentHtmlData = comment.commentHTML();
+      commentList += commentHtmlData
+    });
     let commentSection = document.getElementById('comment-info');
     commentSection.innerHTML = commentList;
-    debugger;
   });
 }
 
@@ -79,15 +46,7 @@ class Recommendation {
     this.user_id = obj.user_id
     this.category_id = obj.category_id
     this.id = obj.id
-    //this.comments = obj.comments; to figure out how to create multiple comments;
-    //maybe send subsequent call to get comments with update...
   }
-}
-
-Recommendation.prototype.recHTML = function () {
-  return (`
-    <div>${this.title}</div>
-  `)
 }
 
 Recommendation.prototype.commentHTML = function () {
@@ -119,6 +78,7 @@ function getUserComments() {
 };
 //can extract button click to separate function
 //with transfer to JSON, no longer has ability to delete one's own posts
+//to add back in here with ajax delete request 
 
 
 function getComments() {
