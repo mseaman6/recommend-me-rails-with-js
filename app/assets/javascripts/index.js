@@ -1,34 +1,26 @@
 $(function() {
   attachListeners();
   getComments();
-  //getUserComments();
-  //nextRecommendation();
   submitComment();
   console.log("index.js loaded...");
 })
 
-//to move event Listeners into separate functions
 function nextRecommendation() {
-  //$(".js-next").on("click", function(e) {
-    //e.preventDefault();
-    debugger;
-    let catId = $(".js-next").attr("data-cat-id");
-    let recId = $(".js-next").attr("data-id");
-    debugger;
-    $.getJSON(`/categories/${catId}/recommendations/${recId}/next`, function(response) {
-      if(response) {
-        let recommendation = new Recommendation(response);
-        $(".recommendationTitle").text(recommendation["title"]);
-        $(".recommendationDescription").text(recommendation["description"]);
-        $(".recommendationCategory").text(recommendation["category"]);
-        $(".recommendationAuthor").text(recommendation["author"]);
-        $(".js-next").attr("data-id", recommendation["id"]);
-        getNextRecComments(recommendation.category_id, recommendation.id);
-      } else {
-        $(".error_message").text("There are no additional recommendations in this category.");
-      }
-    });
-//  });
+  let catId = $(".js-next").attr("data-cat-id");
+  let recId = $(".js-next").attr("data-id");
+  $.getJSON(`/categories/${catId}/recommendations/${recId}/next`, function(response) {
+    if(response) {
+      let recommendation = new Recommendation(response);
+      $(".recommendationTitle").text(recommendation["title"]);
+      $(".recommendationDescription").text(recommendation["description"]);
+      $(".recommendationCategory").text(recommendation["category"]);
+      $(".recommendationAuthor").text(recommendation["author"]);
+      $(".js-next").attr("data-id", recommendation["id"]);
+      getNextRecComments(recommendation.category_id, recommendation.id);
+    } else {
+      $(".error_message").text("There are no additional recommendations in this category.");
+    }
+  });
 }
 //think about removing next rec link where last in cat; would need to know that next is blank... (so check prior to posting response)
 
@@ -66,22 +58,18 @@ Recommendation.prototype.commentHTML = function () {
 }
 
 function getUserComments(e) {
-  //const commentsButton = document.getElementById('my-comments');
-  //commentsButton.addEventListener('click', function(e) {
-    //e.preventDefault();
-    $.getJSON(`${e.currentTarget.href}`, function(response) {
-      let commentList = "";
-      let header = "";
-      response.forEach(function(comm) {
-        let comment = new Comment(comm);
-        header = comment.userHeader();
-        let commentHtmlData = comment.userCommentHTML();
-        commentList += commentHtmlData
-      })
-      let body = document.getElementById('content');
-      body.innerHTML = header + commentList;
-    });
-  //});
+  $.getJSON(`${e.currentTarget.href}`, function(response) {
+    let commentList = "";
+    let header = "";
+    response.forEach(function(comm) {
+      let comment = new Comment(comm);
+      header = comment.userHeader();
+      let commentHtmlData = comment.userCommentHTML();
+      commentList += commentHtmlData
+    })
+    let body = document.getElementById('content');
+    body.innerHTML = header + commentList;
+  });
 };
 //with transfer to JSON, no longer has ability to delete one's own posts; cannot view session data to validate ownership
 
@@ -115,6 +103,7 @@ function submitComment() {
     });
   });
 }
+//would need to change various values to extract event handler into separate function
 //after submit, to see about clearing out text in the text field and allowing submission of another comment
 //need to make sure that it is checking for the correct recommendation; not only based upon url, but also data below
 //let catId = $(".js-next").attr("data-cat-id");
@@ -164,10 +153,4 @@ function attachListeners() {
     e.preventDefault();
     getUserComments(e);
   });
-
-//  $(".new_comment").on("submit", function(e) {
-//    e.preventDefault();
-//    submitComment();
-//  };
 };
-//not working with event listeners extracted from functions
