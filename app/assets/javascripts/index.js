@@ -1,18 +1,20 @@
 $(function() {
-  //attachListeners();
+  attachListeners();
   getComments();
-  getUserComments();
-  nextRecommendation();
+  //getUserComments();
+  //nextRecommendation();
   submitComment();
   console.log("index.js loaded...");
 })
 
 //to move event Listeners into separate functions
 function nextRecommendation() {
-  $(".js-next").on("click", function(e) {
-    e.preventDefault();
+  //$(".js-next").on("click", function(e) {
+    //e.preventDefault();
+    debugger;
     let catId = $(".js-next").attr("data-cat-id");
     let recId = $(".js-next").attr("data-id");
+    debugger;
     $.getJSON(`/categories/${catId}/recommendations/${recId}/next`, function(response) {
       if(response) {
         let recommendation = new Recommendation(response);
@@ -26,7 +28,7 @@ function nextRecommendation() {
         $(".error_message").text("There are no additional recommendations in this category.");
       }
     });
-  });
+//  });
 }
 //think about removing next rec link where last in cat; would need to know that next is blank... (so check prior to posting response)
 
@@ -63,12 +65,11 @@ Recommendation.prototype.commentHTML = function () {
   `)
 }
 
-function getUserComments() {
-  const commentsButton = document.getElementById('my-comments');
-  commentsButton.addEventListener('click', function(e) {
-    e.preventDefault();
-    $.getJSON(`${this.href}`, function(response) {
-      console.log('index.js response: ', response);
+function getUserComments(e) {
+  //const commentsButton = document.getElementById('my-comments');
+  //commentsButton.addEventListener('click', function(e) {
+    //e.preventDefault();
+    $.getJSON(`${e.currentTarget.href}`, function(response) {
       let commentList = "";
       let header = "";
       response.forEach(function(comm) {
@@ -80,7 +81,7 @@ function getUserComments() {
       let body = document.getElementById('content');
       body.innerHTML = header + commentList;
     });
-  });
+  //});
 };
 //with transfer to JSON, no longer has ability to delete one's own posts; cannot view session data to validate ownership
 
@@ -115,6 +116,9 @@ function submitComment() {
   });
 }
 //after submit, to see about clearing out text in the text field and allowing submission of another comment
+//need to make sure that it is checking for the correct recommendation; not only based upon url, but also data below
+//let catId = $(".js-next").attr("data-cat-id");
+//let recId = $(".js-next").attr("data-id");
 
 class Comment {
   constructor(obj) {
@@ -149,23 +153,21 @@ Comment.prototype.commentHTML = function () {
   `)
 }
 
-//function attachListeners() {
-  //$(".js-next").addEventListener('click', nextRecommendation);
-  //(e) {
-    //debugger;
-    //e.preventDefault();
-    //nextRecommendation();
-  //});
+function attachListeners() {
+  $(".js-next").on("click", function(e) {
+    e.preventDefault();
+    nextRecommendation();
+  });
 
-  //const commentsButton = document.getElementById('my-comments');
-  //commentsButton.addEventListener('click', function(e) {
-  //  e.preventDefault();
-  //  getUserComments();
-  //};
+  const commentsButton = document.getElementById('my-comments');
+  commentsButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    getUserComments(e);
+  });
 
 //  $(".new_comment").on("submit", function(e) {
 //    e.preventDefault();
 //    submitComment();
 //  };
-//};
+};
 //not working with event listeners extracted from functions
