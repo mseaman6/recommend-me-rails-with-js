@@ -95,19 +95,30 @@ function submitComment() {
   $('.new_comment').submit(function(e) {
     e.preventDefault();
     let values = $(this).serialize();
-    $.post(`${this.action}`, values, function (response) {
-      let comment = new Comment(response);
-      let commentHtmlData = comment.commentHTML();
-      let commentSection = document.getElementById('comment-info');
-      commentSection.innerHTML += commentHtmlData;
+    let catID = $(".js-next").attr("data-cat-id");
+    let recID = $(".js-next").attr("data-id");
+    $.ajax({
+      type: "POST",
+      url: `/categories/${catID}/recommendations/${recID}/comments`,
+      data: values,
+      success: function (response) {
+        let comment = new Comment(response);
+        let commentHtmlData = comment.commentHTML();
+        let commentSection = document.getElementById('comment-info');
+        commentSection.innerHTML += commentHtmlData;
+      }
     });
+    //$.post(`${window.origin}/categories/${catID}/recommendations/${recID}/comments`, values, function (response) {
+    //  debugger;
+    //  let comment = new Comment(response);
+    //  let commentHtmlData = comment.commentHTML();
+    //  let commentSection = document.getElementById('comment-info');
+    //  commentSection.innerHTML += commentHtmlData;
+    //});
   });
 }
 //would need to change various values to extract event handler into separate function
 //after submit, to see about clearing out text in the text field and allowing submission of another comment
-//need to make sure that it is checking for the correct recommendation; not only based upon url, but also data below
-//let catId = $(".js-next").attr("data-cat-id");
-//let recId = $(".js-next").attr("data-id");
 
 class Comment {
   constructor(obj) {

@@ -1,4 +1,6 @@
 class CommentsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create]
+  #necessary because of js implementation of next recommendation
 
   def create
     @comment = Comment.create(comment_params)
