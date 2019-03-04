@@ -114,7 +114,7 @@ function submitComment() {
     });
   });
 }
-
+//after submit, to see about clearing out text in the text field and allowing submission of another comment
 
 class Comment {
   constructor(obj) {
