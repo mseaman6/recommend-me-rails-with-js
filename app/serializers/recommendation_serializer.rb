@@ -3,5 +3,5 @@ class RecommendationSerializer < ActiveModel::Serializer
   belongs_to :user
   belongs_to :category
   has_many :comments
-  has_many :commentors, :class_name => 'User', through: :comments
+  has_many :commentors
 end

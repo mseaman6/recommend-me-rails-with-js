@@ -15,9 +15,7 @@ class RecommendationsController < ApplicationController
 
   def next
     @recommendation = Recommendation.where("category_id = ? and id > ?", (params[:category_id]), (params[:recommendation_id])).first
-    respond_to do |f|
-      f.json {render json: @recommendation}
-    end
+    render json: @recommendation
   end
 
   def recent

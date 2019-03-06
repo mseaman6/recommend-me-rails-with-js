@@ -1,7 +1,9 @@
 $(function() {
   attachListeners();
-  getComments();
-  submitComment();
+  if ($(".comments").length > 0) {
+    getComments();
+    submitComment();
+  }
   console.log("index.js loaded...");
 })
 
