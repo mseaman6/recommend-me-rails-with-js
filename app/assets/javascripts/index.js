@@ -73,7 +73,6 @@ function getUserComments(e) {
     body.innerHTML = header + commentList;
     $("#alphaComments").on("click", function(e) {
       e.preventDefault();
-      console.log("this button is working!");
       orderedComments();
     });
   });
@@ -85,7 +84,6 @@ function orderedComments() {
   $.getJSON(`${window.location.origin}/users/${userId}`, function (response) {
     let commentList = "";
     let header = "";
-    console.log(response);
     let sortedList = response.comments.sort(function(a, b) {
       let comment1 = a.recommendation.title.toUpperCase();
       let comment2 = b.recommendation.title.toUpperCase();
@@ -97,7 +95,6 @@ function orderedComments() {
       }
       return 0;
     });
-    debugger;
     sortedList.forEach(function(comm) {
       let comment = new Comment(comm);
       header = comment.userHeader();
