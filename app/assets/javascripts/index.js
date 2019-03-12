@@ -71,9 +71,36 @@ function getUserComments(e) {
     })
     let body = document.getElementById('content');
     body.innerHTML = header + commentList;
+    $("#alphaComments").on("click", function(e) {
+      e.preventDefault();
+      console.log("this button is working!");
+      orderedComments();
+    });
   });
 };
 //with transfer to JSON, no longer has ability to delete one's own posts; cannot view session data to validate ownership
+
+function orderedComments() {
+  let userId = $("#alphaComments").attr("data-id");
+  $.ajax({
+    url: `users/${userId}`,
+    method: 'get',
+    dataType: 'json'
+  }).done(function (response) {
+    let commentList = "";
+    let header = "";
+    console.log(response);
+    debugger;
+    //response.forEach(function(comm) {
+    //  let comment = new Comment(comm);
+    //  header = comment.userHeader();
+    //  let commentHtmlData = comment.userCommentHTML();
+    //  commentList += commentHtmlData
+    //})
+    let body = document.getElementById('content');
+    body.innerHTML = header + commentList;
+  });
+}
 
 function getComments() {
   $.ajax({
