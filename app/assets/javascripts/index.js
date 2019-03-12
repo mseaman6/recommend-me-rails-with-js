@@ -144,7 +144,11 @@ Comment.prototype.userCommentHTML = function() {
 }
 
 Comment.prototype.userHeader = function() {
-  return (`<h2><b>${this.commentor_up}'s</b> Comments</h2><br>`)
+  return (`
+    <h2><b>${this.commentor_up}'s</b> Comments</h2><br>
+    <button id="alphaComments" class="btn btn-primary" data-id="${this.commentor_id}">Alphabetize by Recommendation</button><br>
+    <br>
+    `)
 }
 
 Comment.prototype.commentHTML = function () {
