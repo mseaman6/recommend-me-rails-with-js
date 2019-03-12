@@ -93,9 +93,15 @@ function orderedComments() {
       if (comment1 > comment2) {
         return 1;
       }
+      if (a.text.toUpperCase() < b.text.toUpperCase()) {
+        return -1;
+      }
+      if (a.text.toUpperCase() > b.text.toUpperCase()) {
+        return 1;
+      }
       return 0;
     });
-    sortedList.forEach(function(comm) {
+    response.comments.forEach(function(comm) {
       let comment = new Comment(comm);
       header = comment.userHeader();
       let commentHtmlData = comment.userCommentHTML();
