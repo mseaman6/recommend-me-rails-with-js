@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :require_login
 
   def new
     @user = User.new
@@ -21,14 +22,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    require_login
     @user = User.find(params[:id])
     respond_to do |f|
-      f.html
+      f.html {render :show}
       f.json {render json: @user}
     end
-    #add button to this page that ajax request to user show page that gets a json version of the current user; organized alphabetically by recommendations
-    #full js functionality, but I can do the button in erb (to alphabetize)
+    #add feature here
   end
 
   private
