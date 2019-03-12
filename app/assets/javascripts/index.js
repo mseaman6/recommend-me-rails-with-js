@@ -82,24 +82,31 @@ function getUserComments(e) {
 
 function orderedComments() {
   let userId = $("#alphaComments").attr("data-id");
-  $.ajax({
-    url: `users/${userId}`,
-    method: 'get',
-    dataType: 'json'
-  }).done(function (response) {
+  $.getJSON(`${window.location.origin}/users/${userId}`, function (response) {
     let commentList = "";
     let header = "";
     console.log(response);
+    let sortedList = response.comments.sort(function(a, b) {
+      let comment1 = a.recommendation.title.toUpperCase();
+      let comment2 = b.recommendation.title.toUpperCase();
+      if (comment1 < comment2) {
+        return -1;
+      }
+      if (comment1 > comment2) {
+        return 1;
+      }
+      return 0;
+    });
     debugger;
-    //response.forEach(function(comm) {
-    //  let comment = new Comment(comm);
-    //  header = comment.userHeader();
-    //  let commentHtmlData = comment.userCommentHTML();
-    //  commentList += commentHtmlData
-    //})
+    sortedList.forEach(function(comm) {
+      let comment = new Comment(comm);
+      header = comment.userHeader();
+      let commentHtmlData = comment.userCommentHTML();
+      commentList += commentHtmlData
+    })
     let body = document.getElementById('content');
     body.innerHTML = header + commentList;
-  });
+  })
 }
 
 function getComments() {
@@ -152,10 +159,10 @@ function submitComment() {
 class Comment {
   constructor(obj) {
     this.text = obj.text
-    this.commentor = obj.commentor.name
     this.recommendation = obj.recommendation.title
     this.category_id = obj.recommendation.category_id
     this.recommendation_id = obj.recommendation.id
+    this.commentor = obj.commentor.name
     this.commentor_id = obj.commentor.id
     this.commentor_up = obj.commentor.name.toUpperCase()
   }
